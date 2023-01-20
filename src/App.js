@@ -8,6 +8,7 @@ function App() {
   const [todaysGames, setTodaysGames] = useState([])
   const [tomorrowsGames, setTomorrowsGames] = useState([])
   const [standings, setStandings] = useState([])
+  const [loterryTeams, setLotteryTeams] = useState([])
 
   const headers = {
     "method": "GET",
@@ -23,6 +24,7 @@ function App() {
       .then((response) => {
         console.log(response);
         setStandings(response.response)
+        setLotteryTeams(response.response.filter(item => item.conference.rank > 8))
       })
       .catch(err => {
         console.log(err);
@@ -31,14 +33,14 @@ function App() {
 
 
 
-
-
-
   return (
     <div className="App">
       <h1>Tank Tracker</h1>
       <button onClick={() => updateStandings()}>Update</button>
-      <LeagueStandings standings={standings}/>
+      <div style={{display: 'flex'}}>
+        <LeagueStandings standings={standings}/>
+        <LeagueStandings standings={loterryTeams}/>
+      </div>
     </div>
   );
 }
